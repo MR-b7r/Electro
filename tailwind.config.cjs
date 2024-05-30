@@ -11,7 +11,12 @@ export default {
         "black-02": "#1F1E24",
         "black-03": "#191922",
         "black-04": "#201E2C",
-        "black-05": "#191922",
+        "blackLanding-01": "#111928",
+        "blackLanding-02": "rgb(31 42 55)",
+        "blackLanding-03": "rgb(17 25 40)",
+      },
+      screens: {
+        xs: "400px",
       },
     },
   },

@@ -33,18 +33,42 @@ function getPrice(cartlist) {
 function updateLocalStorage(updateCartlist) {
   localStorage.setItem("cartlist", JSON.stringify(updateCartlist));
 }
+function updateLocalCartPrice(totalCost) {
+  localStorage.setItem("cartlistPrice", JSON.stringify(totalCost));
+}
 
 const CartContext = createContext();
 const CartProvider = ({ children }) => {
   const [cartlist, setCartList] = useState([]);
   const [totalCost, setTotalCost] = useState(0);
+  const [quantities, setQuantities] = useState(() => {
+    const storedQuantities = localStorage.getItem("itemQuantities");
+    return storedQuantities ? JSON.parse(storedQuantities) : {};
+  });
+
+  useEffect(() => {
+    localStorage.setItem("itemQuantities", JSON.stringify(quantities));
+  }, [quantities]);
 
   useEffect(() => {
     const storedCartList = localStorage.getItem("cartlist");
-    if (storedCartList) setCartList(JSON.parse(storedCartList));
+    const storedCartListPrice = JSON.parse(
+      localStorage.getItem("cartlistPrice")
+    );
 
-    // setTotalCost(getPrice(cartlist));
-  }, [setCartList, totalCost]);
+    if (storedCartList || storedCartListPrice) {
+      setTotalCost(storedCartListPrice);
+    }
+  }, []);
+
+  useEffect(() => {
+    const storedCartList = localStorage.getItem("cartlist");
+
+    if (storedCartList) {
+      setCartList(JSON.parse(storedCartList));
+      // getPrice([cartlist]);
+    }
+  }, [setCartList]);
 
   const addToCartlist = (product, amount) => {
     setCartList((prevCartlist) => [...prevCartlist, product]);
@@ -64,8 +88,24 @@ const CartProvider = ({ children }) => {
     updateTotal(amount);
   };
 
-  const updateTotal = (amount) => {
+  const updateTotal = (amount = 0) => {
     setTotalCost(totalCost + amount);
+    updateLocalCartPrice(totalCost + amount);
+  };
+
+  const updateQuantity = (itemId, newQuantity = undefined) => {
+    if (newQuantity) {
+      setQuantities((prevQuantities) => ({
+        ...prevQuantities,
+        [itemId]: newQuantity,
+      }));
+    } else {
+      setQuantities((quantities) => {
+        const updatedQuantities = { ...quantities };
+        delete updatedQuantities[itemId];
+        return updatedQuantities;
+      });
+    }
   };
   return (
     <CartContext.Provider
@@ -76,6 +116,8 @@ const CartProvider = ({ children }) => {
         updateTotal,
         setTotalCost,
         totalCost,
+        quantities,
+        updateQuantity,
       }}
     >
       {children}

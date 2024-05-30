@@ -2,6 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
+:root {
+  --width: 80px;
+}
 body {
   font-family: "Inter", sans-serif;
   transition: color 0.3s, background-color 0.3s;
@@ -32,7 +35,11 @@ span.boxEffect::before {
 * {
   scroll-behavior: smooth;
 }
-
+.landing-switch-mode {
+  transition-property: color, border-color, background-color;
+  transition-duration: 0.2s;
+  transition-timing-function: ease;
+}
 ::-webkit-scrollbar {
   width: 6px;
   background-color: transparent;
@@ -40,4 +47,29 @@ span.boxEffect::before {
 ::-webkit-scrollbar-thumb {
   background: linear-gradient(to top right, #eab308 100%, #a16207 0%);
   border-radius: 50px;
+}
+
+.shadow-box {
+  box-shadow: 7.1px 7.1px 20.7px rgba(0, 0, 0, 0.08),
+    100px 100px 134px rgba(0, 0, 0, 0.039);
+}
+
+.shadow-box-dark {
+  box-shadow: 7.1px 7.1px 20.7px rgba(255, 255, 255, 0.08),
+    100px 100px 134px rgba(209, 208, 208, 0.039);
+}
+
+.width-responsive {
+  width: var(--width); /* Use the custom property value */
+}
+@media (min-width: 640px) {
+  .width-responsive {
+    --width: 140px; /* sm */
+  }
+}
+
+@media (min-width: 768px) {
+  .width-responsive {
+    --width: 260px; /* md */
+  }
 }

@@ -29,7 +29,7 @@ const ShoppingCart = () => {
       <div className="border-t border-white-01 px-4 py-6 sm:px-6">
         <div className="flex justify-between text-[16px] font-bold text-black-04 dark:text-gray-100  tracking-wider italic">
           <p>Subtotal</p>
-          <p>${totalCost.toFixed(2)}</p>
+          {/* <p>${totalCost.toFixed(2)}</p> */}
         </div>
         <div className="flex justify-between text-[16px] font-bold text-black-04 dark:text-gray-100 tracking-wider italic">
           <p>Taxes</p>

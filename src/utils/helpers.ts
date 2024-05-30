@@ -1,16 +1,22 @@
-/* eslint-disable */
-export const filterByModel = function (filterValue, mainData) {
-  let filteredData;
+export const filterByModel = function (
+  filterValue: string,
+  mainData: [string, string][]
+) {
+  let filteredData: [string, string][];
   if (filterValue === "All") filteredData = mainData;
   else {
     const filterValueLow = filterValue.toLowerCase();
     const pattern = RegExp(filterValueLow, "i");
-    filteredData = mainData.filter(([url, slug]) => pattern.test(url));
+    filteredData = mainData.filter(([url, _]: [string, string]) =>
+      pattern.test(url.toLowerCase())
+    );
   }
   return filteredData;
 };
 
-export const getUniqueData = function (data) {
+// _____________________
+
+export const getUniqueData = function <T>(data: T[]): T[] {
   const uniqueData = new Set();
   const uniqueObjects = data.filter((arr) => {
     const arrString = JSON.stringify(arr);
@@ -23,7 +29,9 @@ export const getUniqueData = function (data) {
   return uniqueObjects;
 };
 
-export async function fetchProductDetail(detailLink) {
+// _____________________
+
+export async function fetchProductDetail(detailLink: string): Promise<any> {
   try {
     const res = await fetch(detailLink);
     const data = await res.json();
@@ -33,7 +41,9 @@ export async function fetchProductDetail(detailLink) {
   }
 }
 
-export function extractNumbersFromString(str) {
+// _____________________
+
+export function extractNumbersFromString(str: string): number[] {
   // Regular expression to match numbers with optional decimal and thousands separators
   const regex = /(?:\D|^)(\d{1,3}(?:[,.]\d{3})*(?:\.\d+)?)(?!\d)/g;
 

@@ -7,7 +7,7 @@ const usePhoneLink = (detailLink, slug) => {
     isLoading,
     error,
   } = useQuery({
-    queryKey: ["shop", slug],
+    queryKey: [slug],
     queryFn: () => fetchProductDetail(detailLink),
   });
   return { details, isLoading, error };

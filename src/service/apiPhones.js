@@ -53,3 +53,20 @@ export async function getPhoneDetails(slug) {
     console.error(err);
   }
 }
+
+export async function getFakePhone() {
+  try {
+    const res = await fetch(
+      `https://fakestoreapi.in/api/products/category?type=mobile`
+    );
+    const { products } = await res.json();
+    const customizeProducts = products.filter(
+      (product) =>
+        product.model !== "realme 11 Pro" && product.model !== "M6 Pro 5G"
+    );
+    console.log(customizeProducts);
+    return customizeProducts;
+  } catch (err) {
+    console.error(err);
+  }
+}

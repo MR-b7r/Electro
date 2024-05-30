@@ -18,35 +18,46 @@ import { WishListProvider } from "./context/WishListContext";
 import { ChakraProvider } from "@chakra-ui/react";
 import Checkout from "./pages/Checkout";
 import ForgetPassword from "./pages/ForgetPassword";
+import Landing from "./pages/Landing";
+import Settings from "./pages/Settings";
+import RootLayout from "./pages/RootLayout";
 
 const router = createBrowserRouter([
   {
-    element: <AppLayout />,
-    path: "/",
+    element: <RootLayout />,
     children: [
       {
-        path: "/home",
-        element: <Home />,
+        element: <AppLayout />,
+        // path: "/",
+        children: [
+          {
+            path: "/home",
+            element: <Home />,
+          },
+          {
+            path: "/shop",
+            element: <Shop />,
+          },
+          {
+            path: "/wishlist",
+            element: <WishList />,
+          },
+          {
+            path: "/cart",
+            element: <ShoppingCart />,
+          },
+          {
+            path: "details/:slug",
+            element: <ProductDetails />,
+          },
+          { path: "/settings", element: <Settings /> },
+        ],
       },
-      {
-        path: "/shop",
-        element: <Shop />,
-      },
-      {
-        path: "/wishlist",
-        element: <WishList />,
-      },
-      {
-        path: "/cart",
-        element: <ShoppingCart />,
-      },
-      {
-        path: "details/:slug",
-        element: <ProductDetails />,
-      },
+      { path: "/checkout", element: <Checkout /> },
     ],
   },
-  { element: <Checkout />, path: "/checkout" },
+
+  { element: <Landing />, path: "/" },
   { element: <Login />, path: "/login" },
   { element: <Signup />, path: "/signup" },
   { element: <ForgetPassword />, path: "/forget-password" },

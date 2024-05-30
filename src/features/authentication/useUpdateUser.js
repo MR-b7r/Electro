@@ -1,21 +1,20 @@
-import { useMutation } from "@tanstack/react-query";
-import { signup as signupApi } from "../../service/apiAuth";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import React from "react";
+import { updateUser as updateUserApi } from "../../service/apiAuth";
 import { useToast } from "@chakra-ui/react";
 
-const useSignup = () => {
+const useUpdateUser = () => {
   const toast = useToast();
+  const queryClient = useQueryClient();
 
-  const { mutate: signup, isPending } = useMutation({
-    mutationFn: ({ fullName, email, password }) =>
-      signupApi({ fullName, email, password }),
-    onSuccess: (user) => {
+  const { mutate: updateUser, isPending } = useMutation({
+    mutationFn: updateUserApi,
+    onSuccess: (data) => {
       toast({
         position: "top",
-        title: `Account successfully created!`,
-        description: "Plaese verify the new account from user's email address",
-
+        title: `User Updated successfully! `,
         status: "success",
-        duration: 4000,
+        duration: 3000,
         isClosable: false,
         colorScheme: "green",
         variant: "solid",
@@ -27,12 +26,14 @@ const useSignup = () => {
           justifyContent: "center",
         },
       });
+      // queryClient.setQueryData(["user"], data.user);
+      queryClient.invalidateQueries({ queryKey: ["user"] });
     },
     onError: (err) => {
       console.error(err);
       toast({
         position: "top",
-        description: "Invalid email address or Password",
+        description: "Something went wrong, please try again ",
         status: "error",
         duration: 3000,
         isClosable: false,
@@ -48,7 +49,7 @@ const useSignup = () => {
       });
     },
   });
-  return { signup, isPending };
+  return { updateUser, isPending };
 };
 
-export default useSignup;
+export default useUpdateUser;
